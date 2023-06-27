@@ -5,29 +5,29 @@ export const OpenAIStream = async (messages: Message[]) => {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
+  const res = await fetch("http://localhost:8000/v1/chat/completions", {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+      //Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
     },
     method: "POST",
     body: JSON.stringify({
-      model: OpenAIModel.DAVINCI_TURBO,
+      model: "River",
       messages: [
         {
           role: "system",
-          content: `You are a helpful, friendly, assistant.`
+          content: `Transcript of a dialog, where the User interacts with an Assistant named Bob. Bob is helpful, kind, honest, good at writing, and never fails to answer the User's requests immediately and with precision.`
         },
         ...messages
       ],
-      max_tokens: 800,
-      temperature: 0.0,
+      max_tokens: 2048,
+      temperature: 0.7,
       stream: true
     })
   });
 
   if (res.status !== 200) {
-    throw new Error("OpenAI API returned an error");
+    throw new Error("LLM API returned an error");
   }
 
   const stream = new ReadableStream({
