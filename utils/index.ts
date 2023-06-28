@@ -21,7 +21,12 @@ export const OpenAIStream = async (messages: Message[]) => {
         ...messages
       ],
       max_tokens: 2048,
-      temperature: 0.7,
+      temperature: 0.8,
+      top_k: 40,
+      top_p: 0.15,
+      presence_penalty: 0.0,
+      frequency_penalty: 0.0,
+      repeat_penalty: 1.1,
       stream: true
     })
   });
